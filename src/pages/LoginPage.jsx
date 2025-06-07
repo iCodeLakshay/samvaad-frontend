@@ -47,8 +47,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen  transition-colors duration-500 text-slate-800 dark:bg-slate-900 dark:text-slate-100">
-      <div className="flex items-center justify-evenly px-4">
+    <div className="min-h-screen gap-6 flex items-center justify-center transition-colors duration-500 text-slate-800 dark:bg-slate-900 dark:text-slate-100">
 
         <div className="w-full max-w-md transition-all duration-500 p-8">
 
@@ -156,7 +155,6 @@ export default function LoginPage() {
           <FlipCard />
         </div>
 
-      </div>
     </div>
   );
 }

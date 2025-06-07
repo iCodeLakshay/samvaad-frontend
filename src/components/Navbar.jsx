@@ -43,16 +43,16 @@ const Navbar = () => {
           {/* Right Side - Navigation */}
           <div className="flex items-center space-x-4">
             
-            <button
+            {/* <button
               onClick={handleSettings}
               className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-105"
               title="Settings"
             >
               <Settings size={20} />
-            </button>
+            </button> */}
 
             {/* Authenticated User Options */}
-            {/* {authUser && (
+            {authUser && (
               <>
                 <button
                   onClick={handleProfile}
@@ -71,9 +71,9 @@ const Navbar = () => {
                   <span className="text-sm font-medium hidden sm:block">Logout</span>
                 </button>
               </>
-            )} */}
+            )}
             
-            {authUser && (
+            {/* {authUser && (
               <div className="relative">
                 <button
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
@@ -104,7 +104,7 @@ const Navbar = () => {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>

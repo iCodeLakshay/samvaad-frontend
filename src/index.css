@@ -12,7 +12,10 @@
   transform-style: preserve-3d;
 }
 
-
+.writing-mode-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
 
 @keyframes flip {
   0%, 100% {

@@ -8,6 +8,7 @@ export const useAuth = create((set) => ({
     isSignedUp: false,
     isLoggedIn: false,
     isUpdatingProfile: false,
+    onlineUsers: [],
     
     checkAuth: async () => {
         try {
