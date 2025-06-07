@@ -2,7 +2,7 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 
-export const useChatStore = create((set) => ({
+export const useChatStore = create((set, get) => ({
     messages: [],
     users: [],
     selectedUser: null,
@@ -12,7 +12,7 @@ export const useChatStore = create((set) => ({
     getUsers: async () => {
         set({ isUserLoading: true });
         try {
-            const response = await axiosInstance.get("/api/message/user");
+            const response = await axiosInstance.get("/api/messages/user");
             set({ users: response.data });
         } catch (error) {
             toast.error("Failed to fetch users");            
@@ -24,12 +24,22 @@ export const useChatStore = create((set) => ({
     getMessages: async (userId) => {
         set({ isMessagesLoading: true });
         try {
-            const response = await axiosInstance.get(`/api/message/${userId}`);
+            const response = await axiosInstance.get(`/api/messages/${userId}`);
             set({ messages: response.data });
         } catch (error) {
             toast.error("Failed to fetch messages");
         } finally {
             set({ isMessagesLoading: false });
+        }
+    },
+
+    sendMessage: async (messageData) => {
+        const {selectedUser, messages} = get();
+        try {
+            const res = await axiosInstance.post(`/api/messages/send/${selectedUser._id}`, messageData);
+            set({ messages: [...messages, res.data]});
+        } catch (error) {   
+            toast.error('Error in send message controller');
         }
     },
 

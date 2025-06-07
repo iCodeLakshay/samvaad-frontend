@@ -62,7 +62,7 @@ const Sidebar = () => {
                                     <UserCircle2 className="w-12 h-12 text-gray-400 dark:text-gray-600" />
                                 )}
                                 <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white dark:border-slate-900
-                                    ${onlineUsers.includes(user._id) ? 'bg-green-500' : 'bg-gray-400 dark:bg-gray-600'}`}>
+                                    ${onlineUsers.includes(user._id) ? 'bg-green-500' : 'bg-red-400 dark:bg-red-600'}`}>
                                 </div>
                             </div>
 
