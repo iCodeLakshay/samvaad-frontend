@@ -40,7 +40,7 @@ export const useChatStore = create((set, get) => ({
             set({ messages: [...messages, res.data]});
             return res.data;
         } catch (error) {   
-            toast.error('Error in send message controller');
+            toast.error('Error in send message controller', error.response.data.message);
             throw error;
         }
     },

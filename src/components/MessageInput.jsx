@@ -1,18 +1,27 @@
 import { useRef, useState } from "react"
 import { useChatStore } from "../hooks/useChat";
-import { ImageIcon, X, Send } from "lucide-react";
+import { ImageIcon, X, Send, Loader } from "lucide-react";
+import toast from "react-hot-toast";
 
 const MessageInput = () => {
   const [text, setText] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
+  const [messageSending, setMessageSending] = useState(false);
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
 
   const handleImageSelect = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImagePreview(URL.createObjectURL(file));
+    const file = e.target.files[0];
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
     }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
   };
 
   const removeImage = () => {
@@ -21,27 +30,25 @@ const MessageInput = () => {
       fileInputRef.current.value = '';
     }
   };
+
   const handleSendMessage = async(e) => {
     e.preventDefault();
     if(!text.trim() && !imagePreview) return;
-
+    setMessageSending(true);
     try {
-      const messageData = {
+      await sendMessage({
         text: text.trim(),
         image: imagePreview,
-      };
+      })
       
-      console.log('Sending message:', messageData);
-      const res = await sendMessage(messageData);
-      
-      if (res) {
-        console.log("Message sent successfully:", res);
-        setText('');
-        setImagePreview(null);
-        if (fileInputRef.current) fileInputRef.current.value = '';
-      }
+      setText('');
+      setImagePreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      setMessageSending(false);
     } catch (error) {
-      console.error('Failed to send message:', error);
+      console.error('Failed to send message', error);
+    }finally{
+      setMessageSending(false);
     }
   };
 
@@ -101,7 +108,10 @@ const MessageInput = () => {
           disabled={!text.trim() && !imagePreview}
           className="p-2 text-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Send size={22} />
+          {messageSending ?
+            <div className='flex items-center justify-center'>
+              <Loader className='size-5 animate-spin' />
+            </div> : <Send size={22} />}
         </button>
       </form>
     </div>
