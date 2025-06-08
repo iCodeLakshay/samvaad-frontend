@@ -21,10 +21,28 @@ const MessageInput = () => {
       fileInputRef.current.value = '';
     }
   };
-
-  const handleSubmit = (e) => {
+  const handleSendMessage = async(e) => {
     e.preventDefault();
-    // Will add send message logic later
+    if(!text.trim() && !imagePreview) return;
+
+    try {
+      const messageData = {
+        text: text.trim(),
+        image: imagePreview,
+      };
+      
+      console.log('Sending message:', messageData);
+      const res = await sendMessage(messageData);
+      
+      if (res) {
+        console.log("Message sent successfully:", res);
+        setText('');
+        setImagePreview(null);
+        if (fileInputRef.current) fileInputRef.current.value = '';
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+    }
   };
 
   return (    
@@ -49,7 +67,7 @@ const MessageInput = () => {
       )}
 
       {/* Message Input Form */}
-      <form onSubmit={handleSubmit} className="flex items-center gap-2">
+      <form onSubmit={handleSendMessage} className="flex items-center gap-2">
         {/* Hidden File Input */}
         <input
           type="file"

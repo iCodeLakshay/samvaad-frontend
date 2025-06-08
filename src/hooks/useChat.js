@@ -38,8 +38,10 @@ export const useChatStore = create((set, get) => ({
         try {
             const res = await axiosInstance.post(`/api/messages/send/${selectedUser._id}`, messageData);
             set({ messages: [...messages, res.data]});
+            return res.data;
         } catch (error) {   
             toast.error('Error in send message controller');
+            throw error;
         }
     },
 
@@ -48,7 +50,6 @@ export const useChatStore = create((set, get) => ({
             set({ selectedUser: null });
             return;
         }
-
         set({ selectedUser: typeof user === 'object' ? user : null });
     },
 }))
