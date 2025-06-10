@@ -1,21 +1,25 @@
 import { create } from 'zustand';
 import { axiosInstance } from '../lib/axios.js';
 import toast from 'react-hot-toast';
+import { io } from 'socket.io-client';
 
-export const useAuth = create((set) => ({
+
+export const useAuth = create((set, get) => ({
     authUser: null,
     isCheckingAuth: true,
     isSignedUp: false,
     isLoggedIn: false,
     isUpdatingProfile: false,
     onlineUsers: [],
-    
+    socket: null,
+
     checkAuth: async () => {
         try {
             const res = await axiosInstance.get('/api/auth/check');
             set({ authUser: res.data });
+            get().connectSocket();
         } catch (error) {
-            console.log('Error checking authentication:', error);            
+            console.log('Error checking authentication:', error);
             set({ authUser: null });
         } finally {
             set({ isCheckingAuth: false });
@@ -28,6 +32,7 @@ export const useAuth = create((set) => ({
             const res = await axiosInstance.post('/api/auth/signup', formData);
             set({ authUser: res.data });
             toast.success('Account created successfully 🎉');
+            get().connectSocket();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error signing up');
         } finally {
@@ -40,8 +45,8 @@ export const useAuth = create((set) => ({
             await axiosInstance.post('/api/auth/logout');
             set({ authUser: null });
             console.log('User logged out successfully');
-            
             toast.success('Logged out successfully');
+            get().disconnectSocket();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error signing up');
         }
@@ -53,6 +58,7 @@ export const useAuth = create((set) => ({
             const res = await axiosInstance.post('/api/auth/login', formData);
             set({ authUser: res.data });
             toast.success('Logged in successfully');
+            get().connectSocket();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Error logging in');
         } finally {
@@ -71,5 +77,19 @@ export const useAuth = create((set) => ({
         } finally {
             set({ isUpdatingProfile: false });
         }
-    }
+    },
+
+    connectSocket: () => {
+        const { authUser } = get();
+        if (!authUser || get().socket?.connected) return;
+        const socket = io(import.meta.env.VITE_API_BASE_URL);
+        socket.connect();
+
+        set({ socket: socket });
+    },
+    disconnectSocket: () => {
+        if(get().socket?.connected) {
+            get().socket.disconnect();
+        };
+    },
 }))

@@ -15,7 +15,7 @@ const FlipCard = () => {
         </div>
 
         {/* Back Side */}
-        <div className="absolute w-full h-full rotate-y-180 backface-hidden flex items-center justify-center">
+        <div className="absolute w-fit h-full rotate-y-180 backface-hidden flex items-center justify-center">
           <DotLottieReact
             src="https://lottie.host/21e38416-e81a-48d3-9435-a06899862f4e/VFEYBECyHz.lottie"
             loop

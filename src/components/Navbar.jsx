@@ -21,7 +21,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/logout');
+    // navigate('/logout');
     setShowProfileMenu(false);
   };
 
