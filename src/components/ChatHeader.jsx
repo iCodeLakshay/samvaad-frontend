@@ -4,7 +4,7 @@ import { UserCircle2, X } from 'lucide-react';
 
 const ChatHeader = () => {
     const { selectedUser, setSelectedUser } = useChatStore();
-    const { onlineUser } = useAuth();
+    const { onlineUsers } = useAuth();
 
     return (
         <div className='flex items-center justify-between p-4 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-gray-700'>
@@ -24,12 +24,12 @@ const ChatHeader = () => {
                         {selectedUser.fullName}
                     </h2>
                     <div className='flex items-center space-x-1'>
-                        <div className={`w-1.5 h-1.5 rounded-full ${onlineUser?.includes(selectedUser._id)
+                        <div className={`w-1.5 h-1.5 rounded-full ${onlineUsers?.includes(selectedUser._id)
                                 ? 'bg-green-500'
                                 : 'bg-red-400 dark:bg-red-600'
                             }`} />
                         <span className='text-sm text-gray-500 dark:text-gray-400'>
-                            {onlineUser?.includes(selectedUser._id) ? 'Online' : 'Offline'}
+                            {onlineUsers?.includes(selectedUser._id) ? 'Online' : 'Offline'}
                         </span>
                     </div>
                 </div>

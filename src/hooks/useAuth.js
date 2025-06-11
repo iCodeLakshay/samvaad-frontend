@@ -82,10 +82,17 @@ export const useAuth = create((set, get) => ({
     connectSocket: () => {
         const { authUser } = get();
         if (!authUser || get().socket?.connected) return;
-        const socket = io(import.meta.env.VITE_API_BASE_URL);
-        socket.connect();
 
+        const socket = io(import.meta.env.VITE_API_BASE_URL, {
+            query: {
+                userId: authUser._id,
+            }
+        });
+        socket.connect();
         set({ socket: socket });
+        socket.on('onlineUsers', (userIds) => {
+            set({ onlineUsers: userIds })
+        })
     },
     disconnectSocket: () => {
         if(get().socket?.connected) {
