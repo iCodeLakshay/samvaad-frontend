@@ -8,16 +8,19 @@ const Sidebar = () => {
     const { getUsers, users, selectedUser, setSelectedUser, isUserLoading } = useChatStore();
     const { onlineUsers } = useAuth();
     const [searchQuery, setSearchQuery] = useState("");
+    const [showOnlineUsers, setShowOnlineUsers] = useState(false);
 
     useEffect(() => {
         getUsers();
-    }, [getUsers])
+    }, [getUsers])    
+    if (isUserLoading) return <SidebarSkeleton />;
 
-    if (isUserLoading) return <SidebarSkeleton />
-
-    const filteredUsers = users.filter(user =>
-        user.fullName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Filter users by search query and online status
+    const filteredUsers = users.filter(user => {
+        const matchesSearch = user.fullName.toLowerCase().includes(searchQuery.toLowerCase());
+        const isOnline = onlineUsers.includes(user._id);
+        return matchesSearch && (!showOnlineUsers || isOnline);
+    });
 
     return (
         <div className="h-full flex flex-col bg-white dark:bg-slate-900">
@@ -34,14 +37,30 @@ const Sidebar = () => {
                         focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 
                         text-gray-600 dark:text-gray-300 placeholder-gray-400 dark:placeholder-gray-500"
                     />
-                </div>
+                </div>            
+            </div>
+
+            {/* Online users filter toggle */}
+            <div className="flex justify-end gap-3 px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                    <span className="ml-3 text-sm font-medium text-gray-600 dark:text-gray-300">
+                        Online Users Only
+                    </span>
+                <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={showOnlineUsers}
+                        onChange={(e) => setShowOnlineUsers(e.target.checked)}
+                        className="sr-only peer"
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-500"></div>
+                </label>
             </div>
 
             {/* Users List */}
             <div className="flex-1 overflow-y-auto">
                 {filteredUsers.length === 0 ? (
                     <div className="text-center p-4 text-gray-500 dark:text-gray-400">
-                        No users found
+                        All are busy...
                     </div>
                 ) : (
                     filteredUsers.map((user) => (
