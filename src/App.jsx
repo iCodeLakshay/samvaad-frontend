@@ -1,5 +1,5 @@
 import Navbar from './components/Navbar';
-import { Routes, Route } from 'react-router-dom';
+// import { Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
@@ -9,7 +9,7 @@ import { useAuth } from './hooks/useAuth';
 import { useEffect } from 'react';
 import { Loader } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import { Navigate } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuth();
