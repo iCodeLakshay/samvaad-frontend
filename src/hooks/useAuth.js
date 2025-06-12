@@ -15,7 +15,7 @@ export const useAuth = create((set, get) => ({
 
     checkAuth: async () => {
         try {
-            const res = await axiosInstance.get('/api/auth/check');
+            const res = await axiosInstance.get('/api/auth/check', { withCredentials: true });
             set({ authUser: res.data });
             get().connectSocket();
         } catch (error) {
