@@ -37,11 +37,11 @@ const App = () => {
         <Route path='/login' element={ !authUser ? <LoginPage /> : <Navigate to='/' />} />
         <Route path='/settings' element={<Settings />} />
         <Route path='/profile' element={ authUser ? <ProfilePage /> : <Navigate to='/login' />} /> */} 
-            <Route path='/' element={ authUser ? <HomePage /> : <Navigate to='/login' />} />
-        <Route path='/signup' element={ !authUser ? <SignupPage /> : <Navigate to='/' />} />
-        <Route path='/login' element={ !authUser ? <LoginPage /> : <Navigate to='/' />} />
+            <Route path='/' element={ authUser !== null ? <HomePage /> : <Navigate to='/login' />} />
+        <Route path='/signup' element={ authUser === null ? <SignupPage /> : <Navigate to='/' />} />
+        <Route path='/login' element={ authUser === null ? <LoginPage /> : <Navigate to='/' />} />
         <Route path='/settings' element={<Settings />} />
-        <Route path='/profile' element={ authUser ? <ProfilePage /> : <Navigate to='/login' />} />
+        <Route path='/profile' element={ authUser !== null ? <ProfilePage /> : <Navigate to='/login' />} />
       </Routes>
       <Toaster />
     </>
