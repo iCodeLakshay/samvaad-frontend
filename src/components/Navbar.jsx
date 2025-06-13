@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { Settings, User, LogOut, MessageCircle, ChevronDown } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const { logout, authUser } = useAuth();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navigate = useNavigate();
-
-  const handleSettings = () => {
-    console.log('Opening settings...');
-    navigate('/settings');
-  };
-
+  
   const handleProfile = () => {
     console.log('Opening profile...');
     navigate('/profile'); 

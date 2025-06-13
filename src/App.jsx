@@ -8,7 +8,7 @@ import { useAuth } from './hooks/useAuth';
 import { useEffect } from 'react';
 import { Loader } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router-dom';
 // import { Navigate, Route, Routes } from 'react-router';
 
 const App = () => {

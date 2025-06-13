@@ -53,11 +53,11 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen transition-colors duration-500 text-slate-800 dark:bg-slate-900 dark:text-slate-100">
-      <div className="flex items-center justify-evenly px-4">
+      <div className="flex items-center justify-center gap-6 px-4">
 
-        <div className="w-full max-w-md transition-all duration-500 p-8 ">
+        <div className="w-full max-w-md transition-all duration-500 p-8 mt-15">
 
-          <div className="text-center mb-4">
+          <div className="text-center ">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4 transition-colors duration-300 bg-blue-50 text-blue-600 dark:bg-slate-700 dark:text-blue-400">
               <MessageCircle size={32} />
             </div>

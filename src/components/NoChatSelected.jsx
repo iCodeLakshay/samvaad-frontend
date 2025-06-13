@@ -5,7 +5,7 @@ const NoChatSelected = () => {
   const { authUser } = useAuth();
 
   return (
-    <div className="flex-1 h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-800/50">
+    <div className="flex-1 h-[100%] flex items-center justify-center bg-gray-50 dark:bg-slate-900">
       <div className="text-center space-y-6 max-w-xl px-4">
         {/* Icon Container */}
         <div className="flex justify-center">
