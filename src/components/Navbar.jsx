@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Settings, User, LogOut, MessageCircle, ChevronDown } from 'lucide-react';
+import { User, LogOut, MessageCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,11 +14,11 @@ const Navbar = () => {
     setShowProfileMenu(false);
   };
 
-  const handleLogout = () => {
-    logout();
-    // navigate('/logout');
-    setShowProfileMenu(false);
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   // navigate('/logout');
+    
+  // };
 
   return (
     <nav className="fixed min-w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 transition-colors duration-300 z-50">
@@ -58,7 +58,7 @@ const Navbar = () => {
                 </button>
 
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {logout(); setShowProfileMenu(false);}}
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 hover:scale-105"
                   title="Logout"
                 >

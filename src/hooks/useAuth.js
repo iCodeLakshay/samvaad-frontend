@@ -42,7 +42,7 @@ export const useAuth = create((set, get) => ({
 
     logout: async () => {
         try {
-            await axiosInstance.post('/api/auth/logout',{}, { withCredentials: true });
+            await axiosInstance.post('/api/auth/logout');
             set({ authUser: null });
             console.log('User logged out successfully');
             toast.success('Logged out successfully');
