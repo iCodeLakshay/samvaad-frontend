@@ -3,6 +3,7 @@ import { Eye, EyeOff, Loader2, MessageCircle } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import FlipCard from '../components/FlipCardAnimation';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -141,12 +142,12 @@ export default function LoginPage() {
           <div className="mt-4 text-center">
             <p className="text-sm transition-colors duration-300 text-slate-600 dark:text-slate-400">
               Don't have an account?{' '}
-              <a
-                href="/signup"
+              <Link
+                to="/signup"
                 className="font-medium transition-colors duration-200 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
               >
                 Create Account
-              </a>
+              </Link>
             </p>
           </div>
         </div>
