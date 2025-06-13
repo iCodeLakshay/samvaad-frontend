@@ -40,7 +40,7 @@ const ChatContainer = () => {
       <ChatHeader />
 
       {/* Messages area with its own scroll */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 dark:bg-gray-900">
         {messages.map((msg) => (
 
           <div
@@ -72,7 +72,7 @@ const ChatContainer = () => {
 
                 {/* Message Bubble */}
                 <div className={`inline-block rounded-lg p-3 ${msg.senderId === authUser._id
-                    ? 'bg-blue-500 text-white rounded-tr-sm'
+                    ? 'bg-blue-500 text-white dark:bg-blue-900 rounded-tr-sm'
                     : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-tl-sm'
                   }`}>
 

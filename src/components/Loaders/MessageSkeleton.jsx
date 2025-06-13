@@ -1,6 +1,6 @@
 const MessageSkeleton = () => {
     return (
-        <div className="flex flex-col space-y-6 p-4">
+        <div className="flex flex-col space-y-6 p-4 dark:bg-gray-900">
             {[...Array(6)].map((_, i) => (
                 <div 
                     key={i} 
