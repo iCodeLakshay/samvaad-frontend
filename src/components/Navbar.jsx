@@ -6,25 +6,26 @@ import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   const { logout, authUser } = useAuth();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   const handleProfile = () => {
     console.log('Opening profile...');
-    navigate('/profile'); 
+    navigate('/profile');
     setShowProfileMenu(false);
   };
 
-  // const handleLogout = () => {
-  //   logout();
-  //   // navigate('/logout');
-    
-  // };
+  const handleLogout = () => {
+    logout();
+    setShowProfileMenu(false);
+    setIsModalOpen(false)
+  }
 
   return (
     <nav className="fixed min-w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 transition-colors duration-300 z-50">
       <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          
+
           {/* Left Side - Branding */}
           <div onClick={() => navigate('/')} className="flex items-center space-x-3 cursor-pointer ">
             <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-500 transition-colors duration-300">
@@ -37,7 +38,7 @@ const Navbar = () => {
 
           {/* Right Side - Navigation */}
           <div className="flex items-center space-x-4">
-            
+
             {/* <button
               onClick={handleSettings}
               className="p-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 hover:scale-105"
@@ -58,7 +59,7 @@ const Navbar = () => {
                 </button>
 
                 <button
-                  onClick={() => {logout(); setShowProfileMenu(false);}}
+                  onClick={() => setIsModalOpen(true)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 hover:scale-105"
                   title="Logout"
                 >
@@ -67,7 +68,7 @@ const Navbar = () => {
                 </button>
               </>
             )}
-            
+
             {/* {authUser && (
               <div className="relative">
                 <button
@@ -103,6 +104,28 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 bg-opacity-50">
+          <div className="bg-white rounded-lg p-6 shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Confirm Logout</h2>
+            <p className="mb-4">Are you sure you want to logout?</p>
+            <div className="flex justify-end">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="mr-2 px-4 py-2 rounded-md text-gray-700 bg-gray-300 hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-md text-white bg-blue-500 hover:bg-blue-600 transition"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
