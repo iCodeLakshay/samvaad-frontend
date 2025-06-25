@@ -9,6 +9,7 @@ export const useChatStore = create((set, get) => ({
     selectedUser: null,
     isUserLoading: false,
     isMessagesLoading: false,
+    unreadMessages: {},
 
     getUsers: async () => {
         set({ isUserLoading: true });
@@ -53,25 +54,77 @@ export const useChatStore = create((set, get) => ({
             set({ selectedUser: null });
             return;
         }
-        set({ selectedUser: typeof user === 'object' ? user : null });
+        set((state) => ({
+             selectedUser: typeof user === 'object' ? user : null,
+             unreadMessages: {
+                ...state.unreadMessages,
+                [user._id]: 0
+             }
+        }));
     },
 
     subsToMessages: () => {
         const {selectedUser} = get();
+        
         if(!selectedUser) return;
 
         const socket = useAuth.getState().socket;
         
         socket.on('newMessage', (newMsg) => {
-            const isMessageSent = newMsg.senderId === selectedUser._id;
-
-            if(!isMessageSent) return;
-            set({ messages: [...get().messages, newMsg], });
-        })
+            console.log('Received new message:', newMsg);
+            const { selectedUser } = get();
+            if (selectedUser && newMsg.senderId === selectedUser._id) {
+                set({
+                    messages: [...get().messages, newMsg],
+                    unreadMessages: {
+                        ...get().unreadMessages,
+                        [newMsg.senderId]: 0
+                    }
+                });
+            } else {
+                set((state) => {
+                    const prev = state.unreadMessages[newMsg.senderId] || 0;
+                    console.log('Incrementing unread for', newMsg.senderId, 'from', prev, 'to', prev + 1);
+                    return {
+                        unreadMessages: {
+                            ...state.unreadMessages,
+                            [newMsg.senderId]: prev + 1
+                        }
+                    }
+                });
+            }
+        });
+        // Listen for messagesSeen event
+        socket.on('messagesSeen', ({ by }) => {
+            const { selectedUser, messages, authUser } = { ...get(), authUser: useAuth.getState().authUser };
+            if (!selectedUser || !authUser) return;
+            // Mark all messages sent by me to selectedUser as seen
+            set({
+                messages: messages.map(msg =>
+                    msg.senderId === authUser._id && msg.receiverId === selectedUser._id
+                        ? { ...msg, seen: true }
+                        : msg
+                )
+            });
+        });
     },
 
     unsubsToMessages: () => {
         const socket = useAuth.getState().socket;
         socket.off('newMessage')
+        socket.off('messagesSeen')
+    },
+
+    markMessagesAsSeen: async (userId) => {
+        try {
+            await axiosInstance.patch(`/api/messages/seen/${userId}`);
+            set((state) => ({
+                messages: state.messages.map(msg =>
+                    msg.senderId === userId ? { ...msg, seen: true } : msg
+                )
+            }));
+        } catch (error) {
+            toast.error('Failed to mark messages as seen');
+        }
     }
 }))

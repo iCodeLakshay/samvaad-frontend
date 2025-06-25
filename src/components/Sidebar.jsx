@@ -5,10 +5,13 @@ import { Search, UserCircle2 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 const Sidebar = () => {
-    const { getUsers, users, selectedUser, setSelectedUser, isUserLoading } = useChatStore();
+    const { getUsers, users, selectedUser, setSelectedUser, isUserLoading, unreadMessages } = useChatStore();
     const { onlineUsers } = useAuth();
     const [searchQuery, setSearchQuery] = useState("");
     const [showOnlineUsers, setShowOnlineUsers] = useState(false);
+
+    // Debug log
+    console.log('Sidebar unreadMessages:', unreadMessages);
 
     useEffect(() => {
         getUsers();
@@ -21,7 +24,7 @@ const Sidebar = () => {
         const isOnline = onlineUsers.includes(user._id);
         return matchesSearch && (!showOnlineUsers || isOnline);
     });
-
+    console.log("Unread Messages: ",unreadMessages);
     return (
         <div className="h-full flex flex-col bg-white dark:bg-slate-900">
             {/* Search Section */}
@@ -93,6 +96,12 @@ const Sidebar = () => {
                                     {onlineUsers.includes(user._id) ? 'Online' : 'Offline'}
                                 </p>
                             </div>
+
+                            {(unreadMessages[user._id] || 0) > 0 && (
+                                <span className="bg-green-500 text-white rounded-full px-2 text-xs">
+                                    {unreadMessages[user._id] || 0}
+                                </span>
+                            )}
                         </button>
                     ))
                 )}
