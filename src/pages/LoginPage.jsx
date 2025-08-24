@@ -43,7 +43,6 @@ export default function LoginPage() {
     const isValidated = validateInputs();
     if (isValidated) {
       login(formData);
-      console.log('Form submitted:', formData);
     }
   };
 

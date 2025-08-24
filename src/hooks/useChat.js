@@ -15,7 +15,6 @@ export const useChatStore = create((set, get) => ({
         set({ isUserLoading: true });
         try {
             const response = await axiosInstance.get("/api/messages/user");
-            console.log("Get Users response:", response);            
             set({ users: response.data });
         } catch (error) {
             console.log("Failed to fetch users: ", error);            
@@ -71,7 +70,6 @@ export const useChatStore = create((set, get) => ({
         const socket = useAuth.getState().socket;
         
         socket.on('newMessage', (newMsg) => {
-            console.log('Received new message:', newMsg);
             const { selectedUser } = get();
             if (selectedUser && newMsg.senderId === selectedUser._id) {
                 set({
@@ -84,7 +82,6 @@ export const useChatStore = create((set, get) => ({
             } else {
                 set((state) => {
                     const prev = state.unreadMessages[newMsg.senderId] || 0;
-                    console.log('Incrementing unread for', newMsg.senderId, 'from', prev, 'to', prev + 1);
                     return {
                         unreadMessages: {
                             ...state.unreadMessages,

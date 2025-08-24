@@ -47,7 +47,6 @@ export default function SignupPage() {
     const isValidated = validateInputs();
     if (isValidated) {
       signup(formData);
-      console.log('Form submitted:', formData);
     }
   };
 

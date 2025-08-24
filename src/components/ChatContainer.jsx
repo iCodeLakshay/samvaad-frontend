@@ -21,7 +21,7 @@ const ChatContainer = () => {
   useEffect(() => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
-      console.log('Calling subsToMessages');
+      // console.log('Calling subsToMessages');
       subsToMessages()
     }
     return () => unsubsToMessages();

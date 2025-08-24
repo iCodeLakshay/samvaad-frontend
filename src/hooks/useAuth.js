@@ -3,7 +3,6 @@ import { axiosInstance } from '../lib/axios.js';
 import toast from 'react-hot-toast';
 import { io } from 'socket.io-client';
 
-
 export const useAuth = create((set, get) => ({
     authUser: null,
     isCheckingAuth: true,
@@ -44,7 +43,6 @@ export const useAuth = create((set, get) => ({
         try {
             await axiosInstance.post('/api/auth/logout');
             set({ authUser: null });
-            console.log('User logged out successfully');
             toast.success('Logged out successfully');
             get().disconnectSocket();
         } catch (error) {

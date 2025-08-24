@@ -10,7 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleProfile = () => {
-    console.log('Opening profile...');
+    // console.log('Opening profile...');
     navigate('/profile');
     setShowProfileMenu(false);
   };

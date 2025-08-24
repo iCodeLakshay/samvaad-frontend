@@ -11,7 +11,7 @@ const Sidebar = () => {
     const [showOnlineUsers, setShowOnlineUsers] = useState(false);
 
     // Debug log
-    console.log('Sidebar unreadMessages:', unreadMessages);
+    // console.log('Sidebar unreadMessages:', unreadMessages);
 
     useEffect(() => {
         getUsers();
@@ -24,7 +24,7 @@ const Sidebar = () => {
         const isOnline = onlineUsers.includes(user._id);
         return matchesSearch && (!showOnlineUsers || isOnline);
     });
-    console.log("Unread Messages: ",unreadMessages);
+    // console.log("Unread Messages: ",unreadMessages);
     return (
         <div className="h-full flex flex-col bg-white dark:bg-slate-900">
             {/* Search Section */}
